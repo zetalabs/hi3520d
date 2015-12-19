@@ -1,0 +1,23 @@
+# stop iptables-provided service
+iptables firewall stop
+
+# stop ezcfg upnpd service
+ezcfg_upnpd wan stop
+
+# stop upnp monitor
+upnp_monitor wan stop
+
+# stop freeradius2 server
+freeradius2_server wan stop
+
+# stop pppoe server
+pppoe_server wan stop
+
+# stop dnsmasq service
+dnsmasq wan stop
+
+# stop telnet service
+telnetd wan stop
+
+# stop ezcfg httpd service
+ezcfg_httpd wan stop

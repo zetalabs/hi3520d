@@ -1,0 +1,15 @@
+ezctp is a wrap of CTP libs from SFIT.
+
+1. kernel share memory settings
+
+shmall is total shared memory size by bytes.
+shmmax = shmall / PAGESIZE
+
+For example, if you want to set total shared memory to 15G,
+you should modify /etc/sysctl.conf , add following lines
+
+kernel.shmmax=15461882265
+kernel.shmall=3774873
+
+then execute
+sudo sysctl -p

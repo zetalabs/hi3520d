@@ -1,0 +1,21 @@
+ezcm is a command line tool to control ezcd
+
+1. EZCFG_PROTO_CTRL
+
+request format:
+	command [args]
+
+response format:
+on success
+	ok [output]
+on fail
+	bad [reason]
+
+2. Supported command
+
+2.1 upnp
+	ezcm upnp advertise alive
+	ezcm upnp advertise byebye
+	ezcm upnp advertise update
+
+	ezcm upnp search

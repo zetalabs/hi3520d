@@ -1,0 +1,7 @@
+<title>my test2</title>
+</head>
+<body><p><a href="/admin/">test Administration Page</a>
+</p>
+<p><a href="http://code.google.com/p/ezbox/">test ezbox Project Home Page</a>
+
+

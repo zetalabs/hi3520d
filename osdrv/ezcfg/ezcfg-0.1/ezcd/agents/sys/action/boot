@@ -1,0 +1,31 @@
+# prepare boot device and basic infrastructure for the system
+preboot boot
+# generate /dev/ nodes
+#mdev boot
+# load preinit kernel modules
+load_modules boot
+# preinit mount system supported fs
+mount_system_fs boot
+# start ezcfg daemon
+ezcd boot
+# setup nvram config file
+nvram boot
+# setup ezcm config file
+ezcm boot
+# setup network base files
+netbase boot
+# prepare dynamic data storage path
+# setup iptables
+iptables load boot
+# setup openssl
+openssl boot
+# prepare dynamic data partition
+#data_partition boot
+# prepare dm-crypt data partition
+dmcrypt_data_partition boot
+# prepare data_storage directories
+data_storage boot
+# prepare overlayfs on /data/rootfs directory
+overlay_rootfs boot
+# start init
+#init boot

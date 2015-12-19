@@ -1,0 +1,62 @@
+# swap partition on
+swap_partition start
+# restart ezcfg daemon
+ezcd reload
+# re-generate nvram config file
+nvram reload
+# re-generate ezcm config file
+ezcm reload
+# environment state initialize
+state start
+# start syslog service
+syslogd start
+# start klog service
+klogd start
+# re-generate /dev/ node
+#mdev restart
+# re-generate network base files
+netbase restart
+# load kernel modules
+load_modules start
+# populate device nodes
+udev_pop_nodes start
+# mount system supported fs
+mount_system_fs start
+# setup cgroup
+cgroup start
+# misc files for the base system
+base_files start
+# build /etc/passwd & /etc/group,
+# also setup root password
+login start
+# bring up loopback interface
+loopback start
+# start shell daemon
+shelld start
+# load iptables kernel modules
+iptables load start
+# bring up ethernet LAN interface but not configurate it
+eth_lan_if start
+# bring up Wifi LAN interface but not configurate it
+wifi_lan_if start
+# bring up LAN bridge interface but not configurate it
+br_lan_if start
+# bring up EtherWAN interface but not configurate it, LAN interface alias need it
+eth_wan_if start
+# bring up LAN interface and configurate it
+lan start
+# restart klog service
+klogd restart
+# restart syslog service
+syslogd restart
+# start openssl service
+openssl start
+# start LAN side services
+#action lan services_start
+# bring up WAN interface and configurate it
+wan start
+# prepare PPP files
+ppp_pap_secrets start
+ppp_chap_secrets start
+# start WAN PPPoE ppp deamon
+ppp_rp_pppoe wan start

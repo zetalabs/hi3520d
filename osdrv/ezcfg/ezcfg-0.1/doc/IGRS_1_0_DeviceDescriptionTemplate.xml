@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema
+  targetNamespace="http://www.igrs.org/igrs/DeviceTemplate"
+  xmlns:igrs="http://www.igrs.org/igrs/DeviceTemplate"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified">
+
+  <element name="root">
+    <complexType>
+      <sequence>
+        <element name="deviceTemplateVersion" type="igrs:deviceTemplateVersionType"/>
+        <element name="device" type="igrs:deviceTemplateType"/>
+        <element name="protocolVersion" type="igrs:protocolVersionType"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="deviceTemplateVersionType">
+    <sequence>
+      <element name="major" type="unsignedInt"/>
+      <element name="minor" type="unsignedInt"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="protocolVersionType">
+    <sequence>
+      <element name="major" type="unsignedInt"/>
+      <element name="minor" type="unsignedInt"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="deviceTemplateType">
+    <sequence>
+      <element name="deviceType" type="anyURI"/>
+      <element name="deviceName" type="string"/>
+      <element name="manufacturer" type="string"/>
+      <element name="manufacturerURL" type="anyURI" minOccurs="0"/>
+      <element name="modelDescription" type="string" minOccurs="0"/>
+      <element name="modelName" type="string"/>
+      <element name="modelNumber" type="string" minOccurs="0"/>
+      <element name="modelURL" type="anyURI" minOccurs="0"/>
+      <element name="serialNumber" type="string" minOccurs="0"/>
+      <element name="UDN" type="anyURI"/>
+      <element name="DeviceIconURL" type="anyURI"/>
+      <element name="joinedGroupList" type="igrs:joinedGroupListType" minOccurs="0"/>
+      <element name="deviceSecurityIdList" type="igrs:deviceSecurityIdListType"/>
+      <element name="serviceList" type="igrs:serviceListType" minOccurs="0"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="joinedGroupListType">
+    <sequence>
+      <element name="deviceGroup" type="igrs:deviceGroupType"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="deviceGroupType">
+    <sequence>
+      <element name="deviceGroupId" type="anyURI"/>
+      <element name="deviceGroupName" type="string"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="deviceSecurityIdListType">
+    <sequence>
+      <element name="deviceSecurityId" type="anyURI" minOccurs="0" maxOccurs="5"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="serviceListType">
+    <sequence>
+      <element name="service" type="igrs:serviceTemplateType" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="serviceTemplateType">
+    <sequence>
+      <element name="serviceType" type="anyURI"/>
+      <element name="serviceId" type="unsignedInt"/>
+      <element name="serviceName" type="string"/>
+      <element name="serviceSecurityIdList" type="igrs:serviceSecurityIdListType"/>
+
+      <!-- Application developer may add additional service interfaces, but should use different
+        namespaces to make a distinction -->
+
+    </sequence>
+  </complexType>
+
+  <complexType name="serviceSecurityIdListType">
+    <sequence>
+      <element name="serviceSecurityId" type="anyURI" minOccurs="0" maxOccurs="3"/>
+    </sequence>
+  </complexType>
+
+</schema>

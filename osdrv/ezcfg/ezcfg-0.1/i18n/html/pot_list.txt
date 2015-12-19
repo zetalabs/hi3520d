@@ -1,0 +1,20 @@
+# index page
+index
+i18n/html/pot/index.pot
+libezcfg/src/http/http_html_index.c
+# admin status_system page
+admin_status_system
+i18n/html/pot/admin_status_system.pot
+libezcfg/src/http/admin/http_html_admin_status_system.c
+# admin menu
+admin_menu
+i18n/html/pot/admin_menu.pot
+libezcfg/src/http/admin/http_html_admin_menu.c
+# admin menu status
+admin_menu_status
+i18n/html/pot/admin_menu_status.pot
+libezcfg/src/http/admin/http_html_admin_menu_status.c
+# admin menu setup
+admin_menu_setup
+i18n/html/pot/admin_menu_setup.pot
+libezcfg/src/http/admin/http_html_admin_menu_setup.c

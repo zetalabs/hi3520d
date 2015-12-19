@@ -1,0 +1,24 @@
+# stop WAN interface binding services
+action wan services_stop
+# stop WAN PPPoE ppp deamon
+ppp_rp_pppoe wan stop
+# bring down WAN interface
+wan stop
+# stop LAN interface binding services
+action lan services_stop
+# stop openssl service
+openssl stop
+# bring down LAN interface
+lan stop
+# stop syslog service
+syslogd stop
+# stop klog service
+klogd stop
+# environment state finished
+env stop
+# stop nvram to sync with cfg
+nvram stop
+# stop overlayfs on /data/rootfs directory
+overlay_rootfs stop
+# stop dm-crypt data partition
+dmcrypt_data_partition stop

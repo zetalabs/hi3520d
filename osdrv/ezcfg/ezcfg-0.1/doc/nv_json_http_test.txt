@@ -1,0 +1,1 @@
+curl -H "Content-type: application/json" -X POST -d '{"phone":"13521389587","password":"test"}' example.com/form.cgi

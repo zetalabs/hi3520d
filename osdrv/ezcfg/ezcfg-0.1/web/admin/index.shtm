@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta http-equiv="Cache-Control" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <link rel="stylesheet" type="text/css" href="/admin/layout_css"/>
+  <title>System Status</title>
+ </head>
+ <body>
+  <div id="container">
+   <form name="status_system" method="post" action="/admin/status_system">
+    <div id="head">
+     <h1><a href="http://code.google.com/p/ezbox/">ezbox</a></h1>
+     <h2>Open Platform for Embedded System Study</h2>
+    </div>
+    <div id="main">
+     <div id="menu">
+      <ul>
+       <li><h3><a href="/admin/status_system">Status</a></h3>
+        <ul>
+         <li><a href="/admin/status_system">System</a></li>
+         <li><a href="/admin/status_lan">LAN</a></li>
+         <li><a href="/admin/status_wan">WAN</a></li>
+        </ul>
+       </li>
+       <li><h3><a href="/admin/setup_system">Setup</a></h3></li>
+       <li><h3><a href="/admin/management_authz">Management</a></h3></li>
+      </ul>
+     </div>
+     <div id="content">
+      <h3>Device Information</h3>
+      <p>Device Name : ezbox</p>
+      <p>Serial Number : 012345678901234567</p>
+      <p>Hardware Version : 1.0</p>
+      <p>Software Version : 1.0</p>
+      <h3>System Configurations</h3>
+      <p>Language : Chinese (China)</p>
+      <p>Time Zone</p>
+      <p> (Area) : Asia</p>
+      <p> (Location) : east China - Beijing, Guangdong, Shanghai, etc.</p>
+      <p>Current Time : 2012-06-25 10:18:20</p>
+      <h3>Running Status</h3>
+      <p>Up Time : 11871 Seconds</p>
+      <p>Total Memory : 28296 KB</p>
+      <p>Free Memory : 9744 KB</p>
+      <p>Total Swap : 0 KB</p>
+      <p>Free Swap : 0 KB</p>
+      <br/>
+      <div id="button"><input type="submit" name="act_refresh" value="Refresh"/></div>
+     </div>
+    </div>
+    <div id="foot"><p>2008-2014 &#169; ezbox</p></div>
+   </form>
+  </div>
+ </body>
+</html>

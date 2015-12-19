@@ -1,0 +1,27 @@
+# start LAN side services
+# start ezcfg httpd
+ezcfg_httpd lan start
+
+# start ezcfg igrsd service
+ezcfg_igrsd lan start
+
+# start ezcfg upnpd service
+ezcfg_upnpd lan start
+
+# ezcd reload for ezcfg httpd/igrsd/upnpd
+ezcd reload
+
+# start telnet service
+telnetd lan start
+
+# start dns/dhcpd service
+dnsmasq lan start
+
+# start upnp monitor
+upnp_monitor lan start
+
+# start pppoe server
+pppoe_server lan start
+
+# start freeradius2 server
+freeradius2_server lan start

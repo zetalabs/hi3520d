@@ -1,0 +1,13 @@
+Please run the autogen.sh first:
+  ./autogen.sh
+
+Then build the application as usual:
+  make
+
+Usual options for ezcd installed in the root filesystem are:
+  ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --sbindir=/sbin \
+    --libdir=/usr/lib \
+    --libexecdir=/lib/ezcd

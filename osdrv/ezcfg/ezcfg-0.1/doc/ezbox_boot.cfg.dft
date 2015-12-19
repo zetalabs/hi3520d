@@ -1,0 +1,62 @@
+# distro name
+sys.distro_name=kuafu
+# hardware architecture
+sys.hardware_arch=x86_64
+# hardware version
+sys.hardware_version=1.0
+# software version
+sys.software_version=1.0
+# software revision
+sys.software_revision=001
+# HDD device is sda
+sys.hdd_device=sda
+# boot arguments for Linux kernel
+sys.boot_args=boot_dev=sda1,ext4
+# swap partition is at /dev/sda5
+sys.swap_dev=sda5
+# data partition is at /dev/sda6, file system is ext4
+sys.data_dev=sda6,ext4
+# data partition key
+sys.data_dev_key=12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+# preinit kernel modules
+sys.modules=e1000,pcnet32,ehci-hcd,ohci-hcd,usb-storage,dm-crypt,cryptomgr,aes_generic
+####################
+# ezcfg config
+####################
+ezcfg.common.log_level=err
+ezcfg.common.rules_path=/etc/ezcfg.rules
+ezcfg.common.root_path=/etc/ezcfg
+ezcfg.common.sem_ezcfg_path=/etc/ezcfg/sem/ezcfg
+ezcfg.common.shm_ezcfg_path=/etc/ezcfg/shm/ezcfg
+ezcfg.common.shm_ezcfg_size=4096
+ezcfg.common.shm_ezcfg_nvram_queue_length=128
+ezcfg.common.shm_ezcfg_rc_queue_length=128
+ezcfg.common.shm_ezctp_path=/etc/ezcfg/shm/ezctp
+ezcfg.common.shm_ezctp_size=512000
+ezcfg.common.sock_ctrl_path=@/etc/ezcfg/sock/ctrl
+ezcfg.common.sock_nvram_path=@/etc/ezcfg/sock/nvram
+ezcfg.common.sock_uevent_path=@/etc/ezcfg/sock/uevent
+ezcfg.common.sock_master_path=@/etc/ezcfg/sock/master
+ezcfg.common.web_document_root_path=/var/ezcfg/www
+ezcfg.common.locale=zh_CN.UTF-8
+ezcfg.common.socket_number=1
+ezcfg.common.auth_number=1
+ezcfg.ezctp.shm_size=512000
+ezcfg.ezctp.cq_unit_size=512
+ezcfg.nvram.0.buffer_size=65536
+ezcfg.nvram.0.backend_type=1
+ezcfg.nvram.0.coding_type=0
+ezcfg.nvram.0.storage_path=/var/ezcfg/nvram.bin
+ezcfg.nvram.1.buffer_size=65536
+ezcfg.nvram.1.backend_type=1
+ezcfg.nvram.1.coding_type=0
+ezcfg.nvram.1.storage_path=/var/ezcfg/nvram_backup.bin
+ezcfg.socket.0.domain=inet
+ezcfg.socket.0.type=stream
+ezcfg.socket.0.protocol=http
+ezcfg.socket.0.address=127.0.0.1:80
+ezcfg.auth.0.type=http-basic
+ezcfg.auth.0.user=root
+ezcfg.auth.0.realm=ezbox
+ezcfg.auth.0.domain=/admin/
+ezcfg.auth.0.secret=admin

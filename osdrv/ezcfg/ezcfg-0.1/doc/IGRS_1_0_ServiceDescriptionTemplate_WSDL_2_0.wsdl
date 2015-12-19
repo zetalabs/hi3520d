@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is the WSDL 2.0 version -->
+<wsdl:description
+  targetNamespace="http://www.igrs.org/igrs/ServiceDescription"
+  xmlns:igrs="http://www.igrs.org/igrs/ServiceDescription"
+  xmlns:wsdl="http://www.w3.org/ns/wsdl"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://www.w3.org/ns/wsdl">
+  <wsdl:types>
+    <schema
+      targetNamespace="http://www.igrs.org/igrs/ServiceDescription"
+      xmlns="http://www.w3.org/2001/XMLSchema"
+      xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+      attributeFormDefault="unqualified"
+      elementFormDefault="qualified">
+
+      <!-- IGRS Service Attribute Types -->
+      <attributeGroup name="occurs">
+        <attribute name="minOccurs" type="xsd:nonNegativeInteger" use="optional" default="1"/>
+        <attribute name="maxOccurs">
+        <simpleType>
+          <union memberTypes="xsd:nonNegativeInteger">
+              <simpleType>
+                <restriction base="NMTOKEN">
+                  <enumeration value="unbounded"/>
+                </restriction>
+              </simpleType>
+            </union>
+          </simpleType>
+        </attribute>
+      </attributeGroup>
+
+      <element name="serviceAttribute" type="igrs:IGRSDataType"/>
+      <element name="serviceAttributeValues" type="igrs:IGRSDataValueType"/>
+      <complexType name="IGRSDataType">
+        <sequence>
+          <element name="ServiceId" type="xsd:unsignedInt"/>
+          <element name="ServiceName" type="xsd:string"/>
+          <element name="ServiceType" type="igrs:ServiceType"/>
+          <element name="ServiceSecurityId" type="igrs:ServiceSecurityIdType"/>
+          <!--other elements for serviceAttribute -->
+        </sequence>
+        <attribute name="name" type="xsd:NCName"/>
+        <attribute name="type" type="xsd:QName"/>
+        <attributeGroup ref="igrs:occurs"/>
+        <attribute name="mutability" use="optional" default="dynamic">
+          <simpleType>
+            <restriction base="xsd:string">
+              <enumeration value="static"/>
+              <enumeration value="dynamic"/>
+            </restriction>
+          </simpleType>
+        </attribute>
+        <attribute name="notifiable" use="optional" type="xsd:boolean" default="false"/>
+      </complexType>
+      <complexType name="IGRSDataValueType">
+        <sequence>
+          <any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+      </complexType>
+      <complexType name="ServiceType">
+        <sequence>
+          <element name="service" type="xsd:QName" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+      </complexType>
+      <complexType name="ServiceSecurityIdType">
+        <sequence>
+          <element name="serviceSecurityId" type="xsd:QName" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+      </complexType>
+
+      <!-- findServiceAttribute Message Types -->
+      <element name="findServiceAttributeByNames" type="igrs:NCNamesType"/>
+      <element name="subscribeServiceAttributeByNames" type="igrs:NCNamesType"/>
+      <element name="findServiceAttribute" type="igrs:findServiceAttributeType"/>
+      <complexType name="findServiceAttributeType">
+        <sequence>
+          <element name="findExpression" type="igrs:findExpressionType"/>
+        </sequence>
+      </complexType>
+      <complexType name="findExpressionType">
+        <sequence>
+          <element ref="igrs:findServiceAttributeByNames"/>
+        </sequence>
+      </complexType>
+      <complexType name="NCNamesType">
+        <sequence>
+          <element name="name" type="xsd:NCName" maxOccurs="unbounded"/>
+        </sequence>
+      </complexType>
+      <element name="findServiceAttributeResponse" type="igrs:findServiceAttributeResponseType"/>
+      <complexType name="findServiceAttributeResponseType">
+        <sequence>
+          <element name="result" type="igrs:resultType"/>
+        </sequence>
+      </complexType>
+      <complexType name="resultType">
+        <sequence>
+          <element name="serviceAttributeValues" type="igrs:serviceAttributeValuesType" minOccurs="0"/>
+          <element name="returnCode" type="xsd:unsignedInt"/>
+        </sequence>
+      </complexType>
+      <complexType name="serviceAttributeValuesType">
+        <sequence maxOccurs="unbounded">
+          <element name="name" type="xsd:NCName"/>
+          <element name="value" type="igrs:IGRSDataValueType"/>
+        </sequence>
+      </complexType>
+
+      <!-- Subscription Message Types -->
+      <element name="subscribe" type="igrs:subscribeType"/>
+      <complexType name="subscribeType">
+        <sequence>
+          <element name="subscribeExpression" type="igrs:subscribeExpressionType"/>
+          <element name="location" type="xsd:anyURI"/>
+          <element name="expirationTime" type="xsd:dateTime"/>
+        </sequence>
+      </complexType>
+      <complexType name="subscribeExpressionType">
+        <sequence>
+          <element ref="igrs:subscribeServiceAttributeByNames"/>
+        </sequence>
+      </complexType>
+      <element name="renewSubscription">
+        <complexType>
+          <sequence>
+            <element name="subscriptionId" type="xsd:unsignedInt"/>
+            <element name="location" type="xsd:anyURI"/>
+            <element name="expirationTime" type="xsd:dateTime"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="unsubscribe">
+        <complexType>
+          <sequence>
+            <element name="subscriptionId" type="xsd:unsignedInt"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="subscribeResponse" type="igrs:subscribeResponseType"/>
+      <complexType name="subscribeResponseType">
+        <sequence>
+          <element name="subscriptionId" type="xsd:unsignedInt"/>
+          <element name="terminationTime" type="xsd:dateTime" minOccurs="0"/>
+          <element name="returnCode" type="xsd:unsignedInt"/>
+        </sequence>
+      </complexType>
+
+      <!-- Notification Message Types -->
+      <element name="sendNotification" type="igrs:sendNotificationType"/>
+      <complexType name="sendNotificationType">
+        <sequence>
+          <element name="serviceAttribute" type="igrs:serviceAttributeTypes"/>
+        </sequence>
+      </complexType>
+      <complexType name="serviceAttributeTypes">
+        <sequence maxOccurs="unbounded">
+          <element name="name" type="xsd:NCName"/>
+          <element name="value" type="igrs:IGRSDataValueType"/>
+          <element name="subscriptionId" type="xsd:unsignedInt"/>
+        </sequence>
+      </complexType>
+      <element name="IGRSportType" type="igrs:portTypeType"/>
+      <complexType name="portTypeType">
+        <complexContent>
+          <extension base="wsdl:tPortType">
+            <sequence>
+              <any namespace="##local" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute name="extends" use="optional">
+              <simpleType>
+                <list itemType="QName"/>
+              </simpleType>
+            </attribute>
+            <anyAttribute namespace="##any"/>
+          </extension>
+        </complexContent>
+      </complexType>
+    </schema>
+  </wsdl:types>
+
+  <IGRSportType name="subscribeServiceAttributePortType">
+    <operation name="subscribe">
+      <input message="igrs:subscribeInputMessage"/>
+      <output message="igrs:subscribeOutputMessage"/>
+    </operation>
+    <igrs:serviceAttribute name="notifiableServiceAttributeName" type="igrs:IGRSDataType" minOccurs="0" maxOccurs="unbounded" mutability="dynamic" notifiable="true"/>
+    <igrs:staticServiceAttributeValues>
+      <igrs:subscribeExtensibility inputElement="igrs:subscribeServiceAttributeByNames"/>
+    </igrs:staticServiceAttributeValues>
+  </IGRSportType>
+
+  <IGRSportType name="notifyServiceAttributePortType">
+    <operation name="sendNotification">
+      <input message="igrs:sendNotificationInputMessage"/>
+    </operation>
+  </IGRSportType>
+
+  <IGRSportType name="findServiceAttributePortType">
+    <operation name="findServiceAttribute">
+      <input message="igrs:findServiceAttributeInputMessage"/>
+      <output message="igrs:findServiceAttributeOutputMessage"/>
+    </operation>
+    <igrs:serviceAttribute name="serviceAttributeName" type="xsd:NCName" minOccurs="0" maxOccurs="unbounded" mutability="dynamic"/>
+    <igrs:staticServiceAttributeValues>
+      <igrs:findServiceAttributeExtensibility inputElement="igrs:findServiceAttributeByNames"/>
+    </igrs:staticServiceAttributeValues>
+  </IGRSportType>
+
+</wsdl:description>

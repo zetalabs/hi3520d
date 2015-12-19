@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- WSDL description of the ZBox Administration Web APIs.
+     The ZBox Administration Web APIs are in beta release.
+     All interfaces are subject to change as we refine and extend our APIs.
+     Please see the term of use for more information. -->
+
+<!-- Revision 2008-02-22 -->
+
+<definitions name="zbap"
+             targetNamespace="http://www.ezidc.net/zbap/wsdl/"
+             xmlns:tns="http://www.ezidc.net/zbap/wsdl/"
+             xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+             xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:zbap="http://www.ezidc.net/zbap/schemas/"
+             xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+             xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <!-- Types for administrate - result elements, operating actions -->
+  <types>
+    <schema targetNamespace="http://www.ezidc.net/zbap/schemas/"
+            xmlns:tns="http://www.ezidc.net/zbap/wsdl/"
+            xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+            xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:zbap="http://www.ezidc.net/zbap/schemas/"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="qualified">
+
+      <import namespace="http://www.w3.org/2003/05/soap-encoding"/>
+
+      <!-- type define for operation getSystemStatus request element -->
+      <complexType name="getSystemStatusRequestType">
+        <sequence>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getSystemStatus response element -->
+      <complexType name="getSystemStatusResponseType">
+        <sequence>
+          <element name="Result" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="DeviceName" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="SerialNumber" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="SoftwareVersion" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HardwareVersion" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+
+          <element name="WanConnectionType" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="WanConnectionStatus" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="WanIPAddress" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+
+          <element name="LanIPAddress" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="LanSubnetMask" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+
+          <element name="TotalMemory" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="FreeMemory" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="TotalSwap" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="FreeSwap" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+
+          <element name="TimeZone" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+
+          <element name="SystemTimeYear" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="SystemTimeMonth" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="SystemTimeDay" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="SystemTimeHour" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="SystemTimeMinute" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="SystemTimeSecond" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+
+          <element name="OnlineTimeDay" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="OnlineTimeHour" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="OnlineTimeMinute" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+          <element name="OnlineTimeSecond" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+
+          <element name="SOAPActions" type="zbap:SOAPActionListType" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="SOAPActionListType">
+        <sequence>
+          <element name="SOAPAction" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getServiceStatus request element -->
+      <complexType name="getServiceStatusRequestType">
+        <sequence>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getServiceStatus response element -->
+      <complexType name="getServiceStatusResponseType">
+        <sequence>
+          <element name="Result" type="xsd:string"/>
+          <element name="BasicServices" type="zbap:ServiceListType"/>
+          <element name="AdvancedServices" type="zbap:ServiceListType"/>
+          <element name="ExtendedServices" type="zbap:ServiceListType"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ServiceType">
+        <sequence>
+          <element name="Name" type="xsd:string"/>
+          <element name="LANStatus" type="xsd:string"/>
+          <element name="WANStatus" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="ServiceListType">
+        <sequence>
+          <element name="Service" type="zbap:ServiceType" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getLanStatus request element -->
+      <complexType name="getLanStatusRequestType">
+        <sequence>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getLanStatus response element -->
+      <complexType name="getLanStatusResponseType">
+        <sequence>
+          <element name="Result" type="xsd:string"/>
+          <element name="MACAddress" type="xsd:string"/>
+          <element name="IPAddress" type="xsd:string"/>
+          <element name="SubnetMask" type="xsd:string"/>
+          <element name="PhyMode" type="xsd:string"/>
+
+          <element name="DHCPStatus" type="xsd:string"/>
+          <element name="StartIPAddress" type="xsd:string"/>
+          <element name="EndIPAddress" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getWanStatus request element -->
+      <complexType name="getWanStatusRequestType">
+        <sequence>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getWanStatus response element -->
+      <complexType name="getWanStatusResponseType">
+        <sequence>
+          <element name="Result" type="xsd:string"/>
+          <element name="ConnectionType" type="xsd:string"/>
+          <element name="MACAddress" type="xsd:string"/>
+          <element name="IPAddress" type="xsd:string"/>
+          <element name="SubnetMask" type="xsd:string"/>
+          <element name="DefaultGateway" type="xsd:string"/>
+          <element name="PrimaryDNS" type="xsd:string"/>
+          <element name="SecondaryDNS" type="xsd:string"/>
+
+          <element name="DHISStatus" type="xsd:string"/>
+          <element name="DHISHostID" type="xsd:string"/>
+          <element name="DHISConnectionStatus" type="xsd:string"/>
+          <element name="DHISMainDomain" type="xsd:string"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation openZbkAccount request element -->
+      <complexType name="openZbkAccountRequestType">
+        <sequence>
+          <element name="Password" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="UserType" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Name" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="FirstName" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Company" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Street" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="ZipCode" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="City" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Phone" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Fax" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Email" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Language" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation openZbkAccount response element -->
+      <complexType name="openZbkAccountResponseType">
+        <sequence>
+          <element name="Result" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Realm" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Password" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Administrator" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="CustomerNumber" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <element name="getSystemStatus" type="zbap:getSystemStatusRequestType"/>
+      <element name="getSystemStatusResponse" type="zbap:getSystemStatusResponseType"/>
+      <element name="getLanStatus" type="zbap:getLanStatusRequestType"/>
+      <element name="getLanStatusResponse" type="zbap:getLanStatusResponseType"/>
+      <element name="getWanStatus" type="zbap:getWanStatusRequestType"/>
+      <element name="getWanStatusResponse" type="zbap:getWanStatusResponseType"/>
+      <element name="getServiceStatus" type="zbap:getServiceStatusRequestType"/>
+      <element name="getServiceStatusResponse" type="zbap:getServiceStatusResponseType"/>
+      <element name="openZbkAccount" type="zbap:openZbkAccountRequestType"/>
+      <element name="openZbkAccountResponse" type="zbap:openZbkAccountResponseType"/>
+    </schema>
+  </types>
+
+  <!-- Messages for ZBox Administration web APIs - get system status. -->
+  <message name="getSystemStatusRequest">
+    <part name="Parameters" element="zbap:getSystemStatus"/>
+  </message>
+
+  <message name="getSystemStatusResponse"> 
+    <part name="Parameters" element="zbap:getSystemStatusResponse"/>
+  </message>
+
+  <message name="getLanStatusRequest">
+    <part name="Parameters" element="zbap:getLanStatus"/>
+  </message>
+
+  <message name="getLanStatusResponse"> 
+    <part name="Parameters" element="zbap:getLanStatusResponse"/>
+  </message>
+
+  <message name="getWanStatusRequest">
+    <part name="Parameters" element="zbap:getWanStatus"/>
+  </message>
+
+  <message name="getWanStatusResponse"> 
+    <part name="Parameters" element="zbap:getWanStatusResponse"/>
+  </message>
+
+  <message name="getServiceStatusRequest">
+    <part name="Parameters" element="zbap:getServiceStatus"/>
+  </message>
+
+  <message name="getServiceStatusResponse"> 
+    <part name="Parameters" element="zbap:getServiceStatusResponse"/>
+  </message>
+
+  <message name="openZbkAccountRequest">
+    <part name="Parameters" element="zbap:openZbkAccount"/>
+  </message>
+
+  <message name="openZbkAccountResponse">
+    <part name="Parameters" element="zbap:openZbkAccountResponse"/>
+  </message>
+
+  <!-- Port for ZBox Administration Web APIs, "zbap" -->
+  <portType name="zbapPortType">
+    <operation name="getSystemStatus">
+      <documentation>Get zbox System Running Status</documentation>
+      <input message="tns:getSystemStatusRequest"/>
+      <output message="tns:getSystemStatusResponse"/>
+    </operation>
+    <operation name="getLanStatus">
+      <documentation>Get zbox System LAN Side Status</documentation>
+      <input message="tns:getLanStatusRequest"/>
+      <output message="tns:getLanStatusResponse"/>
+    </operation>
+    <operation name="getWanStatus">
+      <documentation>Get zbox System WAN Side Status</documentation>
+      <input message="tns:getWanStatusRequest"/>
+      <output message="tns:getWanStatusResponse"/>
+    </operation>
+    <operation name="getServiceStatus">
+      <documentation>Get zbox System Service Status</documentation>
+      <input message="tns:getServiceStatusRequest"/>
+      <output message="tns:getServiceStatusResponse"/>
+    </operation>
+    <operation name="openZbkAccount">
+      <documentation>Open a New Account on ZBox Keeper</documentation>
+      <input message="tns:openZbkAccountRequest"/>
+      <output message="tns:openZbkAccountResponse"/>
+    </operation>
+  </portType>
+
+  <!-- Binding for ZBox Administration Web APIs - document/literal, SOAP over HTTP -->
+  <binding name="zbap" type="tns:zbapPortType">
+    <SOAP:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="getSystemStatus">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbap/getSystemStatus"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getLanStatus">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbap/getLanStatus"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getWanStatus">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbap/getWanStatus"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getServiceStatus">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbap/getServiceStatus"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="openZbkAccount">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbap/openZbkAccount"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+  </binding>
+
+  <!-- Endpoint for ZBox Administration Web APIs -->
+  <service name="zbap">
+    <documentation>ZBox System Administration</documentation>
+    <port name="zbap" binding="tns:zbap">
+      <SOAP:address location="http://www.ezidc.net/zbap/"/>
+    </port>
+  </service>
+
+</definitions>

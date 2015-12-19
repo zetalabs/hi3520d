@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is the WSDL 2.0 version -->
+<description
+   xmlns="http://www.w3.org/ns/wsdl"
+   targetNamespace="http://www.ezidc.net/ezcfg/nvram/wsdl"
+   xmlns:tns="http://www.ezidc.net/ezcfg/nvram/wsdl"
+   xmlns:nvns="http://www.ezidc.net/ezcfg/nvram/schemas"
+   xmlns:wsoap="http://www.w3.org/ns/wsdl/soap"
+   xmlns:soap="http://www.w3.org/2003/05/soap-envelope"
+   xmlns:whttp="http://www.w3.org/ns/wsdl/http"
+   xmlns:wsdlx="http://www.w3.org/ns/wsdl-extensions">
+
+  <documentation>
+     This is a WSDL 2.0 description of EZCFG NVRAM service.
+  </documentation>
+
+  <types>
+    <xs:schema
+       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+       targetNamespace="http://www.ezidc.net/ezcfg/nvram/schemas"
+       xmlns="http://www.ezidc.net/ezcfg/nvram/schemas">
+
+      <xs:element name="getNvram" type="xs:string"/>
+      <xs:element name="getNvramResponse" type="tNvram"/>
+
+      <xs:element name="setNvram" type="tNvram"/>
+      <xs:element name="setNvramResponse" type="tNvramResult"/>
+
+      <xs:element name="unsetNvram" type="xs:string"/>
+      <xs:element name="unsetNvramResponse" type="tNvramResult"/>
+
+      <xs:element name="setMultiNvram" type="tNvramList"/>
+      <xs:element name="setMultiNvramResponse" type="tNvramResult"/>
+
+      <xs:element name="listNvram" type="xs:string"/>
+      <xs:element name="listNvramResponse" type="tNvramList"/>
+
+      <xs:element name="commitNvram" type="xs:string"/>
+      <xs:element name="commitNvramResponse" type="tNvramResult"/>
+
+      <xs:element name="insertSocket" type="tNvramList"/>
+      <xs:element name="insertSocketResponse" type="tNvramResult"/>
+
+      <xs:element name="removeSocket" type="tNvramList"/>
+      <xs:element name="removeSocketResponse" type="tNvramResult"/>
+
+      <xs:complexType name="tNvram">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:complexType name="tNvramList">
+        <xs:sequence>
+          <xs:element name="nvram" type="tNvram" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:complexType name="tNvramResult">
+        <xs:sequence>
+          <xs:element name="result" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+
+      <xs:element name="invalidNameFault" type="xs:string"/>
+
+      <xs:element name="invalidValueFault" type="xs:string"/>
+
+      <xs:element name="operationFailFault" type="xs:string"/>
+
+    </xs:schema>
+  </types>
+
+  <interface name="nvramInterface">
+
+    <fault name="invalidNameFault" element="nvns:invalidNameFault"/>
+    <fault name="invalidValueFault" element="nvns:invalidValueFault"/>
+
+    <operation name="opGetNvram"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="true">
+      <input messageLabel="In"
+         element="nvns:getNvram"/>
+      <output messageLabel="Out"
+         element="nvns:getNvramResponse"/>
+      <outfault ref="tns:invalidNameFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opSetNvram"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="false">
+      <input messageLabel="In"
+         element="nvns:setNvram"/>
+      <output messageLabel="Out"
+         element="nvns:setNvramResponse"/>
+      <outfault ref="tns:invalidNameFault" messageLabel="Out"/>
+      <outfault ref="tns:invalidValueFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opUnsetNvram"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="true">
+      <input messageLabel="In"
+         element="nvns:unsetNvram"/>
+      <output messageLabel="Out"
+         element="nvns:unsetNvramResponse"/>
+      <outfault ref="tns:invalidNameFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opSetMultiNvram"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="false">
+      <input messageLabel="In"
+         element="nvns:setMultiNvram"/>
+      <output messageLabel="Out"
+         element="nvns:setMultiNvramResponse"/>
+      <outfault ref="tns:invalidNameFault" messageLabel="Out"/>
+      <outfault ref="tns:invalidValueFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opListNvram"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="true">
+      <input messageLabel="In"
+         element="nvns:listNvram"/>
+      <output messageLabel="Out"
+         element="nvns:listNvramResponse"/>
+      <outfault ref="tns:operationFailFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opCommitNvram"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="true">
+      <input messageLabel="In"
+         element="nvns:commitNvram"/>
+      <output messageLabel="Out"
+         element="nvns:commitNvramResponse"/>
+      <outfault ref="tns:operationFailFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opInsertSocket"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="false">
+      <input messageLabel="In"
+         element="nvns:insertSocket"/>
+      <output messageLabel="Out"
+         element="nvns:insertSocketResponse"/>
+      <outfault ref="tns:invalidNameFault" messageLabel="Out"/>
+      <outfault ref="tns:invalidValueFault" messageLabel="Out"/>
+    </operation>
+
+    <operation name="opRemoveSocket"
+       pattern="http://www.w3.org/ns/wsdl/in-out"
+       style="http://www.w3.org/ns/wsdl/style/iri"
+       wsdlx:safe="false">
+      <input messageLabel="In"
+         element="nvns:removeSocket"/>
+      <output messageLabel="Out"
+         element="nvns:removeSocketResponse"/>
+      <outfault ref="tns:invalidNameFault" messageLabel="Out"/>
+      <outfault ref="tns:invalidValueFault" messageLabel="Out"/>
+    </operation>
+
+  </interface>
+
+  <!-- SOAP 1.2 binding -->
+  <binding name="nvramSOAPBinding"
+     interface="tns:nvramInterface"
+     type="http://www.w3.org/ns/wsdl/soap"
+     wsoap:version="1.2"
+     wsoap:protocol="http://www.w3.org/2003/05/soap/bindings/HTTP/"
+     wsoap:mepDefault="http://www.w3.org/2003/05/soap/mep/soap-response">
+
+    <fault ref="tns:invalidNameFault"
+       wsoap:code="soap:Sender"/>
+
+    <fault ref="tns:invalidValueFault"
+       wsoap:code="soap:Sender"/>
+
+    <fault ref="tns:operationFailFault"
+       wsoap:code="soap:Sender"/>
+
+    <operation ref="tns:opGetNvram"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+
+    <operation ref="tns:opSetNvram"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+
+    <operation ref="tns:opUnsetNvram"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+
+    <operation ref="tns:opSetMultiNvram"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+
+    <operation ref="tns:opListNvram"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+
+    <operation ref="tns:opCommitNvram"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/soap-response"/>
+
+    <operation ref="tns:opInsertSocket"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+
+    <operation ref="tns:opRemoveSocket"
+       wsoap:mep="http://www.w3.org/2003/05/soap/mep/request-response"/>
+
+  </binding>
+
+  <!-- HTTP 1.1 binding -->
+  <binding name="nvramHTTPBinding"
+     interface="tns:nvramInterface"
+     type="http://www.w3.org/ns/wsdl/http"
+     whttp:methodDefault="GET">
+
+    <fault ref="tns:invalidNameFault"
+       whttp:code="404"/>
+
+    <fault ref="tns:invalidValueFault"
+       whttp:code="400"/>
+
+    <fault ref="tns:operationFailFault"
+       whttp:code="405"/>
+
+    <operation ref="tns:opGetNvram"
+       whttp:location="getNvram/{getNvram}"/>
+
+    <operation ref="tns:opSetNvram"
+       whttp:location="setNvram/{name}"
+       whttp:method="POST"/>
+
+    <operation ref="tns:opUnsetNvram"
+       whttp:location="unsetNvram/{unsetNvram}"/>
+
+    <operation ref="tns:opSetMultiNvram"
+       whttp:location="setMultiNvram/{name}"
+       whttp:method="POST"/>
+
+    <operation ref="tns:opListNvram"
+       whttp:location="listNvram"/>
+
+    <operation ref="tns:opCommitNvram"
+       whttp:location="commitNvram"/>
+
+    <operation ref="tns:opInsertSocket"
+       whttp:location="insertSocket/{name}"
+       whttp:method="POST"/>
+
+    <operation ref="tns:opRemoveSocket"
+       whttp:location="removeSocket/{name}"
+       whttp:method="POST"/>
+
+  </binding>
+
+  <service name="nvramService"
+     interface="tns:nvramInterface">
+
+    <endpoint name="nvramSOAPEndpoint"
+       binding="tns:nvramSOAPBinding"
+       address="http://www.ezidc.net/ezcfg/nvram/soap-http/"/>
+
+    <endpoint name="nvramHTTPEndpoint"
+       binding="tns:nvramHTTPBinding"
+       address="http://www.ezidc.net/ezcfg/nvram/http/"/>
+
+  </service>
+
+</description>

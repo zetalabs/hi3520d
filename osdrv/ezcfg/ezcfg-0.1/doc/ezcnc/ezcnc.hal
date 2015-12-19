@@ -1,0 +1,132 @@
+# core HAL config file for steppers
+
+# first load the core RT modules that will be needed
+# kinematics
+loadrt trivkins
+# motion controller, get name and thread periods from ini file
+loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES
+# stepper module, three step generators, all three using step/dir
+loadrt stepgen step_type=0,0,0
+
+# hook functions to base thread (high speed thread for step generation)
+addf stepgen.make-pulses base-thread
+
+# hook functions to servo thread
+addf stepgen.capture-position servo-thread
+addf motion-command-handler servo-thread
+addf motion-controller servo-thread
+addf stepgen.update-freq servo-thread
+
+# connect position commands from motion module to step generator
+net Xpos-cmd axis.0.motor-pos-cmd => stepgen.0.position-cmd
+net Ypos-cmd axis.1.motor-pos-cmd => stepgen.1.position-cmd
+net Zpos-cmd axis.2.motor-pos-cmd => stepgen.2.position-cmd
+
+# connect position feedback from step generators
+# to motion module
+net Xpos-fb stepgen.0.position-fb => axis.0.motor-pos-fb
+net Ypos-fb stepgen.1.position-fb => axis.1.motor-pos-fb
+net Zpos-fb stepgen.2.position-fb => axis.2.motor-pos-fb
+
+# connect enable signals for step generators
+net Xen axis.0.amp-enable-out => stepgen.0.enable
+net Yen axis.1.amp-enable-out => stepgen.1.enable
+net Zen axis.2.amp-enable-out => stepgen.2.enable
+
+# connect signals to step pulse generator outputs
+net Xstep <= stepgen.0.step
+net Xdir  <= stepgen.0.dir
+net Ystep <= stepgen.1.step
+net Ydir  <= stepgen.1.dir
+net Zstep <= stepgen.2.step
+net Zdir  <= stepgen.2.dir
+
+# set stepgen module scaling - get values from ini file
+setp stepgen.0.position-scale [AXIS_0]SCALE
+setp stepgen.1.position-scale [AXIS_1]SCALE
+setp stepgen.2.position-scale [AXIS_2]SCALE
+
+# set stepgen module accel limits - get values from ini file
+setp stepgen.0.maxaccel [AXIS_0]STEPGEN_MAXACCEL
+setp stepgen.1.maxaccel [AXIS_1]STEPGEN_MAXACCEL
+setp stepgen.2.maxaccel [AXIS_2]STEPGEN_MAXACCEL
+
+# standard pinout config file for 3-axis steppers
+# using a parport for I/O
+#
+# first load the parport driver
+loadrt hal_parport cfg="0x0378"
+#
+# next connect the parport functions to threads
+# read inputs first
+addf parport.0.read base-thread 1
+# write outputs last
+addf parport.0.write base-thread -1
+#
+# finally connect physical pins to the signals
+net Xstep => parport.0.pin-02-out
+net Xdir  => parport.0.pin-03-out
+net Ystep => parport.0.pin-04-out
+net Ydir  => parport.0.pin-05-out
+net Zstep => parport.0.pin-06-out
+net Zdir  => parport.0.pin-07-out
+
+# create a signal for the estop loopback
+net estop-loop iocontrol.0.user-enable-out iocontrol.0.emc-enable-in
+
+# create signals for tool loading loopback
+net tool-prep-loop iocontrol.0.tool-prepare iocontrol.0.tool-prepared
+net tool-change-loop iocontrol.0.tool-change iocontrol.0.tool-changed
+
+# connect "spindle on" motion controller pin to a physical pin
+net spindle-on motion.spindle-on => parport.0.pin-17-out
+
+###
+### You might use something like this to enable chopper drives when machine ON
+### the Xen signal is defined in core_stepper.hal
+###
+
+net Xen => parport.0.pin-16-out
+net Yen => parport.0.pin-16-out
+net Zen => parport.0.pin-16-out
+
+###
+### If you want active low for this pin, invert it like this:
+###
+
+# setp parport.0.pin-01-out-invert 1
+
+###
+### A sample home switch on the X axis (axis 0).  make a signal,
+### link the incoming parport pin to the signal, then link the signal
+### to EMC's axis 0 home switch input pin
+###
+
+# net Xhome parport.0.pin-10-in => axis.0.home-sw-in
+
+###
+### Shared home switches all on one parallel port pin?
+### that's ok, hook the same signal to all the axes, but be sure to 
+### set HOME_IS_SHARED and HOME_SEQUENCE in the ini file.  See the
+### user manual!
+###
+
+# net homeswitches <= parport.0.pin-10-in
+# net homeswitches => axis.0.home-sw-in
+# net homeswitches => axis.1.home-sw-in
+# net homeswitches => axis.2.home-sw-in
+
+###
+### Sample separate limit switches on the X axis (axis 0)
+###
+
+# net X-neg-limit parport.0.pin-11-in => axis.0.neg-lim-sw-in
+# net X-pos-limit parport.0.pin-12-in => axis.0.pos-lim-sw-in
+
+###
+### Just like the shared home switches example, you can wire together
+### limit switches.  Beware if you hit one, EMC will stop but can't tell
+### you which switch/axis has faulted.  Use caution when recovering from this.
+###
+
+# net Xlimits parport.0.pin-13-in => axis.0.neg-lim-sw-in axis.0.pos-lim-sw-in

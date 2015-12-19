@@ -1,0 +1,29 @@
+ezcd is the central part of ezbox system.
+
+  We construct ezbox system as a multi-agent system(MAS).
+  As a multi-agent system, ezbox needs to be represented as an environment with various agents working in it.
+  We are modelling ezbox as following MAS:
+
+1. All agents are following the classical sense-think-act process cycle;
+
+2. Environment is an agent too;
+
+3. The other agents working in the environment can only communicate with environment agent;
+
+4. Agent stores the observation of environment in its inner state, which is represented as nvram entry;
+
+5. If the observation is shared with other agents, it should be stored in nvram. Generally speaking, the environment inner state part which is sensed by local agents should be stored in nvram; the local agents inner state part which is represented environment state should be stored in nvram too. The nvram can be treat as a representing method of the target modelling system.
+
+6. The MAS working flow looks like this
+  6.1 The environmet agent senses its inner state has been changed, so it first updates its inner state which has been represented as nvram entries;
+  6.2 The environment agent then thinks with the state changing;
+  6.3 The environment agent finally performs the action.
+
+  In 6.2 environment agent do nothing but wait other agents to finish their sense-think-act process cycle, be careful that in this stage environment agent inner state should never be changed.
+
+  The local agent will have a chance to execute sense-think-act process cycle in 6.2 stage.
+  6.2.1 The local agent senses its inner state has been changed, so it first updates its inner state which has been represented as nvram entries;
+  6.2.2 The local agent then thinks about the state changes;
+  6.2.3 The local agent finally performs the action.
+
+7. The birth of the environment agent

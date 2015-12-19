@@ -1,0 +1,29 @@
+# start ezcfg httpd service
+ezcfg_httpd wan start
+
+# start ezcfg igrsd service
+ezcfg_igrsd wan start
+
+# start ezcfg upnpd service
+ezcfg_upnpd wan start
+
+# ezcd reload for ezcfg httpd/igrsd/upnpd
+ezcd reload
+
+# start iptables-provided service
+iptables firewall start
+
+# start telnet service
+telnetd wan start
+
+# start dnsmasq service
+dnsmasq wan start
+
+# start upnp monitor
+upnp_monitor wan start
+
+# start pppoe server
+pppoe_server wan start
+
+# start freeradius2 server
+freeradius2_server wan start

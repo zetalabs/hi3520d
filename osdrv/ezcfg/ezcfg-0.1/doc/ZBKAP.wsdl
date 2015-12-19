@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- WSDL description of the ZBoxKeeper Administration Web APIs.
+     The ZBoxKeeper Administration Web APIs are in beta release.
+     All interfaces are subject to change as we refine and extend our APIs.
+     Please see the term of use for more information. -->
+
+<!-- Revision 2008-05-04 -->
+
+<definitions name="zbkap"
+             targetNamespace="http://www.ezidc.net/zbkap/wsdl/"
+             xmlns:tns="http://www.ezidc.net/zbkap/wsdl/"
+             xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+             xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:zbkap="http://www.ezidc.net/zbkap/schemas/"
+             xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+             xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <!-- Types for administrate - result elements, operating actions -->
+  <types>
+    <schema targetNamespace="http://www.ezidc.net/zbkap/schemas/"
+            xmlns:tns="http://www.ezidc.net/zbkap/wsdl/"
+            xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+            xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:zbkap="http://www.ezidc.net/zbkap/schemas/"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="qualified">
+
+      <import namespace="http://www.w3.org/2003/05/soap-encoding"/>
+
+      <!-- type define for operation getTempLogin response element -->
+      <complexType name="getTempLoginResponseType">
+        <sequence>
+          <element name="getTempLoginResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="UserName" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Realm" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Password" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getAccountStatus response element -->
+      <complexType name="getAccountStatusResponseType">
+        <sequence>
+          <element name="getAccountStatusResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="UserType" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="SOAPActions" type="zbkap:SOAPActionListType" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <complexType name="SOAPActionListType">
+        <sequence>
+          <element name="SOAPAction" type="xsd:string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getZboxRemoteManagementSettings response element -->
+      <complexType name="getZboxRemoteManagementSettingsResponseType">
+        <sequence>
+          <element name="getZboxRemoteManagementSettingsResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="IPAddress" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Port" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getContactInfo response element -->
+      <complexType name="getContactInfoResponseType">
+        <sequence>
+          <element name="getContactInfoResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Name" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Address" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="ZipCode" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="PhoneNumber" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="MobilePhone" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Email" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation openAccount request element -->
+      <complexType name="openAccountRequestType">
+        <sequence>
+          <element name="Password" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="UserType" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Name" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="FirstName" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Company" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Street" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="ZipCode" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="City" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Phone" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Fax" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Email" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Language" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="ModelName" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="CodePattern" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HardwareVersion" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="FirmwareVersion" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation openAccount response element -->
+      <complexType name="openAccountResponseType">
+        <sequence>
+          <element name="openAccountResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Realm" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Password" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Administrator" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="CustomerNumber" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="QRCPublicKey" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="ZboxSerialNumber" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation setAccountPassword request element -->
+      <complexType name="setAccountPasswordRequestType">
+        <sequence>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="Realm" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="OldPassword" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="NewPassword" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation setAccountPassword response element -->
+      <complexType name="setAccountPasswordResponseType">
+        <sequence>
+          <element name="setAccountPasswordResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation getDhisPublicKey response element -->
+      <complexType name="getDhisPublicKeyResponseType">
+        <sequence>
+          <element name="getDhisPublicKeyResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="QRCPublicKey" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation setDhisPublicKey request element -->
+      <complexType name="setDhisPublicKeyRequestType">
+        <sequence>
+          <element name="HostID" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="OldQRCPublicKey" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+          <element name="NewQRCPublicKey" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <!-- type define for operation setDhisPublicKey response element -->
+      <complexType name="setDhisPublicKeyResponseType">
+        <sequence>
+          <element name="setDhisPublicKeyResult" type="xsd:string" minOccurs="1" maxOccurs="1" nillable="false"/>
+        </sequence>
+      </complexType>
+
+      <element name="HostID" type="xsd:string"/>
+      <element name="getTempLoginResponse" type="zbkap:getTempLoginResponseType"/>
+      <element name="getAccountStatusResponse" type="zbkap:getAccountStatusResponseType"/>
+      <element name="getZboxRemoteManagementSettingsResponse" type="zbkap:getZboxRemoteManagementSettingsResponseType"/>
+      <element name="getContactInfoResponse" type="zbkap:getContactInfoResponseType"/>
+      <element name="openAccount" type="zbkap:openAccountRequestType"/>
+      <element name="openAccountResponse" type="zbkap:openAccountResponseType"/>
+      <element name="setAccountPassword" type="zbkap:setAccountPasswordRequestType"/>
+      <element name="setAccountPasswordResponse" type="zbkap:setAccountPasswordResponseType"/>
+      <element name="getDhisPublicKeyResponse" type="zbkap:getDhisPublicKeyResponseType"/>
+      <element name="setDhisPublicKey" type="zbkap:setDhisPublicKeyRequestType"/>
+      <element name="setDhisPublicKeyResponse" type="zbkap:setDhisPublicKeyResponseType"/>
+    </schema>
+  </types>
+
+  <!-- Messages for ZBoxKeeper Administration web APIs - get system status. -->
+  <message name="getTempLoginRequest">
+    <part name="Parameters" element="zbkap:HostID"/>
+  </message>
+
+  <message name="getTempLoginResponse">
+    <part name="Parameters" element="zbkap:getTempLoginResponse"/>
+  </message>
+
+  <message name="getAccountStatusRequest">
+    <part name="Parameters" element="zbkap:HostID"/>
+  </message>
+
+  <message name="getAccountStatusResponse">
+    <part name="Parameters" element="zbkap:getAccountStatusResponse"/>
+  </message>
+
+  <message name="getZboxRemoteManagementSettingsRequest">
+    <part name="Parameters" element="zbkap:HostID"/>
+  </message>
+
+  <message name="getZboxRemoteManagementSettingsResponse"> 
+    <part name="Parameters" element="zbkap:getZboxRemoteManagementSettingsResponse"/>
+  </message>
+
+  <message name="getContactInfoRequest">
+    <part name="Parameters" element="zbkap:HostID"/>
+  </message>
+
+  <message name="getContactInfoResponse"> 
+    <part name="Parameters" element="zbkap:getContactInfoResponse"/>
+  </message>
+
+  <message name="openAccountRequest">
+    <part name="Parameters" element="zbkap:openAccount"/>
+  </message>
+
+  <message name="openAccountResponse">
+    <part name="Parameters" element="zbkap:openAccountResponse"/>
+  </message>
+
+  <message name="setAccountPasswordRequest">
+    <part name="Parameters" element="zbkap:setAccountPassword"/>
+  </message>
+
+  <message name="setAccountPasswordResponse">
+    <part name="Parameters" element="zbkap:setAccountPasswordResponse"/>
+  </message>
+
+  <message name="getDhisPublicKeyRequest">
+    <part name="Parameters" element="zbkap:HostID"/>
+  </message>
+
+  <message name="getDhisPublicKeyResponse"> 
+    <part name="Parameters" element="zbkap:getDhisPublicKeyResponse"/>
+  </message>
+
+  <message name="setDhisPublicKeyRequest">
+    <part name="Parameters" element="zbkap:setDhisPublicKey"/>
+  </message>
+
+  <message name="setDhisPublicKeyResponse">
+    <part name="Parameters" element="zbkap:setDhisPublicKeyResponse"/>
+  </message>
+
+  <!-- Port for ZBoxKeeper Administration Web APIs, "zbkap" -->
+  <portType name="zbkapPortType">
+    <operation name="getTempLogin">
+      <documentation>Get ZBox Keeper New Account Temporal Login Info</documentation>
+      <input message="tns:getTempLoginRequest"/>
+      <output message="tns:getTempLoginResponse"/>
+    </operation>
+    <operation name="getAccountStatus">
+      <documentation>Get zbox Account Status</documentation>
+      <input message="tns:getAccountStatusRequest"/>
+      <output message="tns:getAccountStatusResponse"/>
+    </operation>
+    <operation name="getZboxRemoteManagementSettings">
+      <documentation>Get zbox Remote Management Settings</documentation>
+      <input message="tns:getZboxRemoteManagementSettingsRequest"/>
+      <output message="tns:getZboxRemoteManagementSettingsResponse"/>
+    </operation>
+    <operation name="getContactInfo">
+      <documentation>Get Account Manager's Contact Info</documentation>
+      <input message="tns:getContactInfoRequest"/>
+      <output message="tns:getContactInfoResponse"/>
+    </operation>
+    <operation name="openAccount">
+      <documentation>Open a New Account on ZBox Keeper</documentation>
+      <input message="tns:openAccountRequest"/>
+      <output message="tns:openAccountResponse"/>
+    </operation>
+    <operation name="setAccountPassword">
+      <documentation>Change Account Password</documentation>
+      <input message="tns:setAccountPasswordRequest"/>
+      <output message="tns:setAccountPasswordResponse"/>
+    </operation>
+    <operation name="getDhisPublicKey">
+      <documentation>Get DHIS QRC Public Key</documentation>
+      <input message="tns:getDhisPublicKeyRequest"/>
+      <output message="tns:getDhisPublicKeyResponse"/>
+    </operation>
+    <operation name="setDhisPublicKey">
+      <documentation>Set DHIS QRC Public Key</documentation>
+      <input message="tns:setDhisPublicKeyRequest"/>
+      <output message="tns:setDhisPublicKeyResponse"/>
+    </operation>
+  </portType>
+
+  <!-- Binding for ZBoxKeeper Administration Web APIs - document/literal, SOAP over HTTP -->
+  <binding name="zbkap" type="tns:zbkapPortType">
+    <SOAP:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="getTempLogin">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/getTempLogin"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getAccountStatus">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/getAccountStatus"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getZboxRemoteManagementSettings">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/getZboxRemoteManagementSettings"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getContactInfo">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/getContactInfo"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="openAccount">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/openAccount"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="setAccountPassword">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/setAccountPassword"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="getDhisPublicKey">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/getDhisPublicKey"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="setDhisPublicKey">
+      <SOAP:operation soapAction="http://www.ezidc.net/zbkap/setDhisPublicKey"/>
+      <input>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </input>
+      <output>
+        <SOAP:body parts="Parameters" use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <!-- Endpoint for ZBoxKeeper Administration Web APIs -->
+  <service name="zbkap">
+    <documentation>Manage ZBox-Keeper Account</documentation>
+    <port name="zbkap" binding="tns:zbkap">
+      <SOAP:address location="http://www.ezidc.net/zbkap/"/>
+    </port>
+  </service>
+
+</definitions>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema
+  targetNamespace="http://www.igrs.org/igrs/"
+  xmlns:igrs="http://www.igrs.org/igrs/"
+  xmlns="http://www.w3.org/2001/XMLSchema">
+
+  <element name="binding" type="igrs:bindingType"/>
+
+  <complexType name="bindingType">
+    <attribute name="transport" type="igrs:transportMethod" use="optional"/>
+    <attribute name="style" type="igrs:styleChoice" use="optional"/>
+  </complexType>
+
+  <simpleType name="transportMethod">
+    <restriction base="string">
+      <enumeration value="http://www.igrs.org/igrs/igrspipe"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="styleChoice">
+    <restriction base="string">
+      <enumeration value="rpc"/>
+      <enumeration value="document"/>
+    </restriction>
+  </simpleType>
+
+  <element name="operation" type="igrs:operationType"/>
+
+  <complexType name="operationType">
+    <attribute name="soapAction" type="anyURI" use="optional"/>
+    <attribute name="style" type="igrs:styleChoice" use="optional"/>
+  </complexType>
+
+  <element name="body" type="igrs:bodyType"/>
+
+  <complexType name="bodyType">
+    <attribute name="encodingStyle" type="anyURI" use="optional"/>
+    <attribute name="parts" type="NMTOKENS" use="optional"/>
+    <attribute name="use" type="igrs:useChoice" use="optional"/>
+    <attribute name="namespace" type="anyURI" use="optional"/>
+  </complexType>
+
+  <simpleType name="useChoice">
+    <restriction base="string">
+      <enumeration value="literal"/>
+      <enumeration value="encoded"/>
+    </restriction>
+  </simpleType>
+
+  <element name="fault" type="igrs:faultType"/>
+
+  <complexType name="faultType">
+    <complexContent>
+      <restriction base="igrs:bodyType">
+        <attribute name="parts" type="NMTOKENS" use="prohibited"/>
+      </restriction>
+    </complexContent>
+  </complexType>
+
+  <element name="address" type="igrs:addressType"/>
+
+  <complexType name="addressType">
+    <attribute name="location" type="anyURI" use="required"/>
+  </complexType>
+</schema>
