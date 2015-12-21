@@ -138,7 +138,7 @@ char *ezcfg_api_common_get_config_file_content(void)
   }
 
   read_size = fread(buf, sizeof(char), statbuf.st_size, fp);
-  DBG("%s(%d) fread return [%ld] bytes.\n", __func__, __LINE__, read_size);
+  DBG("%s(%d) fread return [%ld] bytes.\n", __func__, __LINE__, (long int)read_size);
   DBG("%s(%d) statbuf.st_size [%lu] bytes.\n", __func__, __LINE__, statbuf.st_size);
   if ((statbuf.st_size ^ read_size) != 0) {
     DBG("%s(%d) fread [%s] bytes error.\n", __func__, __LINE__, config_file);

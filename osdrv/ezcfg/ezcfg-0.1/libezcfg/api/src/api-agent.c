@@ -129,18 +129,7 @@ int ezcfg_api_agent_start(char *init_conf)
     val = NULL;
   }
 
-  EZDBG("%s(%d)\n", __func__, __LINE__);
-  ret = ezcfg_common_get_nvram_entry_value(ezcfg, NVRAM_NAME(AGENT, NAMESPACE), &val);
-  if (ret != EZCFG_RET_OK) {
-    EZDBG("%s(%d)\n", __func__, __LINE__);
-    rc = -EZCFG_E_ARGUMENT ;
-    goto func_out;
-  }
-  agent = ezcfg_socket_agent_new(ezcfg, val);
-  if (val) {
-    free(val);
-    val = NULL;
-  }
+  agent = ezcfg_socket_agent_new(ezcfg);
   if (agent == NULL) {
     EZDBG("%s(%d)\n", __func__, __LINE__);
     rc = -EZCFG_E_RESOURCE ;
@@ -166,7 +155,7 @@ func_out:
   return rc;
 }
 
-int ezcfg_api_agent_stop(char *init_conf, char *ns)
+int ezcfg_api_agent_stop(char *init_conf)
 {
   if (init_conf == NULL) {
     return -EZCFG_E_ARGUMENT ;
@@ -175,7 +164,7 @@ int ezcfg_api_agent_stop(char *init_conf, char *ns)
   return 0;
 }
 
-int ezcfg_api_agent_reload(char *init_conf, char *ns)
+int ezcfg_api_agent_reload(char *init_conf)
 {
   if (init_conf == NULL) {
     return -EZCFG_E_ARGUMENT ;
@@ -184,7 +173,7 @@ int ezcfg_api_agent_reload(char *init_conf, char *ns)
   return 0;
 }
 
-int ezcfg_api_agent_set_debug(char *init_conf, char *ns, bool flag)
+int ezcfg_api_agent_set_debug(char *init_conf, bool flag)
 {
   if (init_conf == NULL) {
     return -EZCFG_E_ARGUMENT ;

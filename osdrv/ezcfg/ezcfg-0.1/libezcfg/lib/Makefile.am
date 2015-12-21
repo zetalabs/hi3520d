@@ -103,7 +103,7 @@ libezcfg_la_SOURCES += ../src/composite/json_http/json_http.c
 # ezcfg Multi-Agent System (MAS) model
 
 # ezcfg socket-based MAS
-#libezcfg_la_SOURCES += ../src/composite/socket_agent/socket_agent.c
+libezcfg_la_SOURCES += ../src/composite/socket_agent/socket_agent.c
 #libezcfg_la_SOURCES += ../src/composite/socket_agent/socket_agent_core.c
 #libezcfg_la_SOURCES += ../src/composite/socket_agent/socket_agent_master.c
 #libezcfg_la_SOURCES += ../src/composite/socket_agent/socket_agent_worker.c

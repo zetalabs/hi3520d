@@ -48,7 +48,7 @@
 #endif
 
 /*
- * ezcfg_agent:
+ * ezcfg_socket_agent:
  *
  * Opaque object handling one event source.
  * Multi-Agents System model - agent part.
@@ -82,89 +82,109 @@ struct ezcfg_socket_agent {
 };
 
 /* Private functions */
-/*
- * Deallocate ezcfg agent context, free up the resources
- * only delete agent_new() allocated resources before pthread_mutex initialized
- * other resources should be deleted in agent_finish()
- */
-static void agent_del(struct ezcfg_socket_agent *agent)
-{
-  if (agent == NULL)
-    return;
 
-  /* first stop agent act part */
-  if (agent->master != NULL) {
-    ezcfg_agent_master_stop(agent->master);
-  }
 
-  free(agent);
-}
 
+/* Public functions */
 /**
- * agent_new:
+ * ezcfg_socket_agent_new:
  *
  * Create ezcfg agent.
  *
  * Returns: a new ezcfg agent
  **/
-static struct ezcfg_socket_agent *agent_new(struct ezcfg *ezcfg)
+struct ezcfg_socket_agent *ezcfg_socket_agent_new(struct ezcfg *ezcfg)
 {
-  struct ezcfg_agent *agent;
+  struct ezcfg_socket_agent *agent;
 
   ASSERT(ezcfg != NULL);
 
-  agent = malloc(sizeof(struct ezcfg_agent));
+  agent = malloc(sizeof(struct ezcfg_socket_agent));
   if (agent == NULL) {
-    err(ezcfg, "calloc ezcfg_agent fail: %m\n");
+    err(ezcfg, "calloc ezcfg_socket_agent fail: %m\n");
     return NULL;
   }
 
   /* initialize ezcfg library context */
-  memset(agent, 0, sizeof(struct ezcfg_agent));
+  memset(agent, 0, sizeof(struct ezcfg_socket_agent));
+
+  /* There must be an agent process state */
+#if 0
+  EZDBG("%s(%d)\n", __func__, __LINE__);
+  agent->process = ezcfg_process_new(ezcfg, ns);
+  EZDBG("%s(%d)\n", __func__, __LINE__);
+  if (agent->process == NULL) {
+    EZDBG("%s(%d)\n", __func__, __LINE__);
+    err(ezcfg, "can not initialize agent process state");
+    goto fail_out;
+  }
+#endif
 
   /* set ezcfg library context */
   agent->ezcfg = ezcfg;
 
   /* Successfully create agent */
   return agent;
+
+#if 0
+fail_out:
+  EZDBG("%s(%d)\n", __func__, __LINE__);
+  agent_delete(agent);
+  return NULL;
+#endif
 }
 
-/* Public functions */
-struct ezcfg_agent *ezcfg_agent_start(struct ezcfg *ezcfg)
+/*
+ * Deallocate ezcfg agent context, free up the resources
+ * only delete agent_new() allocated resources before pthread_mutex initialized
+ * other resources should be deleted in agent_finish()
+ */
+int ezcfg_socket_agent_del(struct ezcfg_socket_agent *agent)
 {
-  struct ezcfg_agent *agent = NULL;
+  if (agent == NULL)
+    return EZCFG_RET_FAIL;
 
-  ASSERT(ezcfg != NULL);
+  /* first stop agent act part */
+#if 0
+  if (agent->master_thread != NULL) {
+    ezcfg_socket_agent_master_thread_stop(agent->master_thread);
+  }
+#endif
+  if (agent->worker_threads) {
+    free(agent->worker_threads);
+    agent->worker_threads = NULL;
+  }
+  if (agent->master_thread) {
+    free(agent->master_thread);
+    agent->master_thread = NULL;
+  }
+  if (agent->process) {
+    free(agent->process);
+    agent->process = NULL;
+  }
+
+  free(agent);
+  return EZCFG_RET_OK;
+}
+
+int ezcfg_socket_agent_start(struct ezcfg_socket_agent *agent)
+{
+  struct ezcfg *ezcfg = NULL;
+
+  ASSERT(agent != NULL);
 
   EZDBG("%s(%d)\n", __func__, __LINE__);
+  ezcfg = agent->ezcfg;
   if (prctl(PR_SET_CHILD_SUBREAPER, 1) < 0) {
     EZDBG("%s(%d)\n", __func__, __LINE__);
     err(ezcfg, "failed to make us a subreaper: %m");
     if (errno == EINVAL)
       err(ezcfg, "perhaps the kernel version is too old (< 3.4?)");
-    return NULL;
-  }
-
-  EZDBG("%s(%d)\n", __func__, __LINE__);
-  agent = agent_new(ezcfg);
-  EZDBG("%s(%d)\n", __func__, __LINE__);
-  if (agent == NULL) {
-    EZDBG("%s(%d)\n", __func__, __LINE__);
-    err(ezcfg, "can not initialize agent");
-    return NULL;
-  }
-
-  /* There must be an agent core state */
-  EZDBG("%s(%d)\n", __func__, __LINE__);
-  agent->core = ezcfg_agent_core_new(ezcfg);
-  EZDBG("%s(%d)\n", __func__, __LINE__);
-  if (agent->core == NULL) {
-    EZDBG("%s(%d)\n", __func__, __LINE__);
-    err(ezcfg, "can not initialize agent core state");
-    goto fail_out;
+    return EZCFG_RET_FAIL;
   }
 
   /* There must be an agent act executor link with core state*/
+#if 0
   EZDBG("%s(%d)\n", __func__, __LINE__);
   agent->master = ezcfg_agent_master_start(ezcfg, agent->core);
   if (agent->master == NULL) {
@@ -172,26 +192,24 @@ struct ezcfg_agent *ezcfg_agent_start(struct ezcfg *ezcfg)
     err(ezcfg, "can not initialize agent act executor");
     goto fail_out;
   }
+#endif
 
   /* Successfully create agent */
   EZDBG("%s(%d)\n", __func__, __LINE__);
-  return agent;
-
-fail_out:
-  EZDBG("%s(%d)\n", __func__, __LINE__);
-  agent_delete(agent);
-  return NULL;
+  return EZCFG_RET_OK;
 }
 
-void ezcfg_agent_stop(struct ezcfg_agent *agent)
+int ezcfg_socket_agent_stop(struct ezcfg_socket_agent *agent)
 {
   if (agent == NULL)
-    return;
+    return EZCFG_RET_FAIL;
 
-  ezcfg_agent_master_stop(agent->master);
+  //ezcfg_socket_agent_master_stop(agent->master);
+  return EZCFG_RET_OK;
 }
 
-void ezcfg_agent_reload(struct ezcfg_agent *agent)
+#if 0
+void ezcfg_socket_agent_reload(struct ezcfg_agent *agent)
 {
   if (agent == NULL)
     return;
@@ -199,10 +217,11 @@ void ezcfg_agent_reload(struct ezcfg_agent *agent)
   ezcfg_agent_master_reload(agent->master);
 }
 
-void ezcfg_agent_set_threads_max(struct ezcfg_agent *agent, int threads_max)
+void ezcfg_socket_agent_set_threads_max(struct ezcfg_socket_agent *agent, int threads_max)
 {
   if (agent == NULL)
     return;
 
   ezcfg_agent_master_set_threads_max(agent->master, threads_max);
 }
+#endif

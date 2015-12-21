@@ -113,7 +113,6 @@ int agent_env_main(int argc, char **argv)
   bool debug = false;
   int opt = 0;
   int rc = 0;
-  char *ns = NULL;
   char *conf_file = AGENT_ENV_CONFIG_FILE_PATH;
   char *init_conf = NULL;
   size_t init_conf_len = 0;
@@ -125,7 +124,7 @@ int agent_env_main(int argc, char **argv)
     debug = true;
   }
 
-  while ((opt = getopt(argc, argv, "c:i:n:")) != -1) {
+  while ((opt = getopt(argc, argv, "c:i:")) != -1) {
     switch (opt) {
     case 'c':
       conf_file = optarg;
@@ -138,9 +137,6 @@ int agent_env_main(int argc, char **argv)
       else {
         init_conf = strdup(optarg);
       }
-      break;
-    case 'n':
-      ns = optarg;
       break;
     default: /* '?' */
       agent_env_show_usage(argv[0]);
@@ -174,7 +170,7 @@ int agent_env_main(int argc, char **argv)
   while (*++argv)
     memset(*argv, 0, strlen(*argv));
 
-  rc = ezcfg_api_agent_start(init_conf, ns);
+  rc = ezcfg_api_agent_start(init_conf);
 
   /* should never run to this place!!! */
 func_out:
